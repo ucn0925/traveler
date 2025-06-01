@@ -17,16 +17,16 @@ class UsersController < ApplicationController
           if cu.room_id == u.room_id then
             @isRoom = true
             @roomId = cu.room_id
-          end
-        end
-      end
+          end  # ← if cu.room_id == u.room_id 終わり
+        end  # ← @userEntry.each 終わり
+      end  # ← @currentUserEntry.each 終わり
       if @isRoom
       else
         @room = Room.new
         @entry = Entry.new
-      end
-    end
-  end
+      end # ← if @isRoom 終わり
+    end  # ← if @user.id == current_user.id 終わり
+  end  # ← def show 終わり
 
   def edit
     @user = User.find(params[:id])
