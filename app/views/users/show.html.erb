@@ -1,4 +1,7 @@
 <div class="cover-user-show">
+ <p style="background: yellow; collor: red; font-weight: bold;">
+   DEBUG: @isRoom = <%= @isRoom.inspect %>
+</p>  <!-- 後で削除します -->
   <div class="container d-flex flex-column align-items-center">
     <div class="row mt-5">
       <% if user_signed_in? && @user == current_user %>
@@ -11,13 +14,16 @@
     <% unless @user.id == current_user.id %>
       <% if (current_user.following? @user) && (@user.following? current_user) %>
       <% if @isRoom == true %>
-        <p class="user-show-room"><a href="/rooms/<%= @roomId %>" class="btn btn-primarybtn-lg">チャットへ</a>
+        <p>DEBUG: チャットルームがある</p>
       <% else %>
+        <p>DEBUG: チャットルームがない</p>
+        <p>room: <%= @room.inspect %></p>
+        <p>entry: <%= @entry.inspect %></p>
         <%= form_for @room do |f| %>
-          <%= fields_for @entry do |e| %>
-            <%= e.hidden_field :user_id, value: @user.id %>
-          <% end %>
-          <%= f.submit "チャットを始める", class:"btn btn-primary btn-lg user-show-chat" %>
+          <%= f.fields_for @entry do |e| %>
+          <%= e.hidden_field :user_id, value: @user.id %>
+        <% end %>
+      <%= f.submit "チャットを始める", class:"btn btn-primary btn-lg user-show-chat" %>
         <% end %>
       <% end %>  
       <% end %>

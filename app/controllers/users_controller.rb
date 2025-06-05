@@ -8,20 +8,26 @@ class UsersController < ApplicationController
     @posts = @user.posts.page(params[:page]).per(8).reverse_order
     @following_users = @user.following_user
     @follower_users = @user.follower_user
-    @currentUserEntry = Entry.where(user_id: current_user.id)
-    @userEntry = Entry.where(user_id: @user.id)
+
+    @current_user_entry = Entry.where(user_id: current_user.id)
+    @user_entry = Entry.where(user_id: @user.id)
+
     if @user.id == current_user.id
+      # 自分のページなので、何もしない
     else
-      @currentUserEntry.each do |cu|
-        @userEntry.each do |u|
-          if cu.room_id == u.room_id then
+      @isRoom = false
+      # 「部屋はまだない」と仮定しておく
+      @current_user_entry.each do |cu|
+        break if @isRoom
+        @user_entry.each do |u|
+          if cu.room_id == u.room_id
             @isRoom = true
             @roomId = cu.room_id
+            break
           end  # ← if cu.room_id == u.room_id 終わり
-        end  # ← @userEntry.each 終わり
-      end  # ← @currentUserEntry.each 終わり
-      if @isRoom
-      else
+        end  # ← @user_entry.each 終わり
+      end  # ← @current_user_entry.each 終わり
+      unless @isRoom
         @room = Room.new
         @entry = Entry.new
       end # ← if @isRoom 終わり
