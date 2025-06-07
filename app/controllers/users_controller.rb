@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+
     @posts = @user.posts.page(params[:page]).per(8).reverse_order
     @following_users = @user.following_user
     @follower_users = @user.follower_user
@@ -29,9 +30,11 @@ class UsersController < ApplicationController
       end  # ← @current_user_entry.each 終わり
       unless @isRoom
         @room = Room.new
-        @entry = Entry.new
+        @entry = @room.entries.build(user_id: @user.id)
       end # ← if @isRoom 終わり
     end  # ← if @user.id == current_user.id 終わり
+    p "@room = #{@room.inspect}" 
+    p "@entry = #{@entry.inspect}"
   end  # ← def show 終わり
 
   def edit
@@ -59,5 +62,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :email, :profile, :profile_image)
   end
+
+    
 
 end

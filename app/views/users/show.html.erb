@@ -1,5 +1,5 @@
 <div class="cover-user-show">
- <p style="background: yellow; collor: red; font-weight: bold;">
+ <p style="background: yellow; color: red; font-weight: bold;">
    DEBUG: @isRoom = <%= @isRoom.inspect %>
 </p>  <!-- 後で削除します -->
   <div class="container d-flex flex-column align-items-center">
@@ -12,21 +12,18 @@
     </div>
 
     <% unless @user.id == current_user.id %>
-      <% if (current_user.following? @user) && (@user.following? current_user) %>
+      <%# フォロー条件は外す %>
       <% if @isRoom == true %>
-        <p>DEBUG: チャットルームがある</p>
+        <%=link_to "チャットへ", room_path(@roomId), class: "btn btn-primary btn-lg" %>
       <% else %>
-        <p>DEBUG: チャットルームがない</p>
-        <p>room: <%= @room.inspect %></p>
-        <p>entry: <%= @entry.inspect %></p>
+        <!-- 今あるチャットを始めるフォーム -->   
         <%= form_for @room do |f| %>
-          <%= f.fields_for @entry do |e| %>
-          <%= e.hidden_field :user_id, value: @user.id %>
-        <% end %>
-      <%= f.submit "チャットを始める", class:"btn btn-primary btn-lg user-show-chat" %>
+              <%= f.fields_for :entry, @entry do |e| %>
+                  <%= e.hidden_field :user_id, value: @user.id %>
+              <% end %>
+              <%= f.submit "チャットを始める", class:"btn btn-primary btn-lg user-show-chat" %>
         <% end %>
       <% end %>  
-      <% end %>
     <% end %>  
 
     <% if user_signed_in? && @user == current_user %>
