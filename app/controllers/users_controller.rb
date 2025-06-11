@@ -19,7 +19,6 @@ class UsersController < ApplicationController
       @isRoom = false
       # 「部屋はまだない」と仮定しておく
       @current_user_entry.each do |cu|
-        break if @isRoom
         @user_entry.each do |u|
           if cu.room_id == u.room_id
             @isRoom = true
@@ -27,6 +26,7 @@ class UsersController < ApplicationController
             break
           end  # ← if cu.room_id == u.room_id 終わり
         end  # ← @user_entry.each 終わり
+        break if @isRoom
       end  # ← @current_user_entry.each 終わり
       unless @isRoom
         @room = Room.new

@@ -12,8 +12,8 @@
     </div>
 
     <% unless @user.id == current_user.id %>
-      <%# フォロー条件は外す %>
-      <% if @isRoom == true %>
+      <% if (current_user.following?(@user) && @user.following?(current_user)) %>
+      <% if @isRoom  %>
         <%=link_to "チャットへ", room_path(@roomId), class: "btn btn-primary btn-lg" %>
       <% else %>
         <!-- 今あるチャットを始めるフォーム -->   
@@ -23,6 +23,7 @@
               <% end %>
               <%= f.submit "チャットを始める", class:"btn btn-primary btn-lg user-show-chat" %>
         <% end %>
+      <% end %>
       <% end %>  
     <% end %>  
 
