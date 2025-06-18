@@ -1,0 +1,32 @@
+body {
+    background-image: url('/assets/mypage-scaled.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: rgba(255, 255, 255, 0.4);
+    background-blend-mode: lighten;
+}
+
+.chat-container {
+    background-color: white;
+    min-height: 300px;
+    padding: 20px;
+    overflow-y: auto;
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+.chat-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+}

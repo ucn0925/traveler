@@ -1,22 +1,34 @@
-<% @entries.each do |e| %>
-    <% if @my_user_id != e.user.id %>
-      <h2><%= e.user.name %>さんとのトークルーム</h2>
+<% entry = @entries.find{ |e| e.user.id != @my_user_id} %>
+    <% if entry %>
+      <h2 class="chat-title">
+        <%= link_to "#{entry.user.name}さん", user_path(entry.user.id) %>とのトークルーム
+      </h2>
     <% end %>
-<% end %>
 
-<%= link_to "ユーザー一覧に戻る", users_path %>
-
-    <% if @messages.present? %>
+    <div class = "chat-container">
       <% @messages.each do |m| %>
         <% if @my_user_id == m.user.id %>
-        <p><%= m.user.name %></p>
-        <p><%= m.message %></p>
+          <!-- 自分のメッセージ（右寄せ） -->
+          <div class = "d-flex justify-content-end mb-2">
+            <div class = "chat-bubble bg-primary text-white p-2 rounded">
+              <%= m.message %>
+            </div>
+          </div>
+        <% else %>
+          <!-- 相手のメッセージ（左寄せ）-->
+          <div class = "d-flex justify-content-start mb-2">
+            <div class = "chat-bubble bg-light p-2 rounded">
+              <%= m.message %>
+            </div>
+          </div>
         <% end %>
       <% end %>
-    <% end %>
+    </div>
 
+    <div class = "form-wrapper">
     <%= form_for @message do |f| %>
         <%= f.text_field :message, placeholder: "メッセージを入力してください", size: 50, class: "form-text-field" %>
           <%= f.hidden_field :room_id, value: @room.id %>
-            <%= f.submit "投稿", class: 'form-submit' %>
+            <%= f.submit "送信する", class: 'form-submit' %>
         <% end %>
+    </div>
